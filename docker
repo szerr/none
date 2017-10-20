@@ -1,0 +1,52 @@
+docker pull ubuntu:12.04
+等同于 docker pull registry.hub.docker.com/ubuntu:12.04
+docker run -t -i ubuntu:12.04 /bin/bash
+
+docker images 列出本地镜像
+
+修改镜像
+docker commit -m "Added json gem" -a "Docker Newbee" 0b2616b0e5a8 ouruser/sinatra:v2 提交更新后的副本; 将容器保存到镜像
+
+构建一个镜像: 
+Dockerfile 内容: 这里每条内容都创建镜像的一层，一个镜像不能超过127层
+
+FROM ubuntu:14.04
+MAINTAINER Docker Newbee <newbee@docker.com>
+RUN apt-get -qq update
+RUN apt-get -qqy install ruby ruby-dev
+RUN gem install sinatra
+
+docker build . #构建
+
+ADD 命令复制本地文件到镜像；用 EXPOSE 命令来向外部开放端口；用 CMD 命令来描述容器启动后运行的程序
+docker tag 命令来修改镜像的标签
+
+docker save -o ubuntu_14.04.tar ubuntu:14.04 保存镜像
+导入镜像
+docker load --input ubuntu_14.04.tar 
+docker load < ubuntu_14.04.tar
+
+docker rmi training/sinatra 移除本地镜像
+
+-d后台运行
+docker run -d ubuntu:14.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+
+docker logs 查看输出
+
+docker start 运行容器 ps -a 中的
+docker stop
+docker run  在容器中执行命令
+
+docker attach containerId 进入容器操作
+
+概念： 容器是ps -a 里的， 镜像是 images里的
+
+docker export 导出容器 docker export c8f452413964 > python.tar
+docker import ubuntu.tar bula:nginx 同上
+cat ubuntu.tar | docker import - ubuntu:python 再次导入会变成快照
+
+-q 只显示id
+
+docker rm `docker ps -a -q` 删除所有容器
+
+docker import http://example.com/exampleimage.tgz example/imagerepo 也可以通过url导入
