@@ -50,3 +50,7 @@ cat ubuntu.tar | docker import - ubuntu:python 再次导入会变成快照
 docker rm `docker ps -a -q` 删除所有容器
 
 docker import http://example.com/exampleimage.tgz example/imagerepo 也可以通过url导入
+
+docker run -it -v /home/aa/none/:/mnt ubuntu:14.04 /bin/bash 挂载本地目录到docker
+
+--name xx 自定义命名
