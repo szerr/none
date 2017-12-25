@@ -52,5 +52,6 @@ docker rm `docker ps -a -q` 删除所有容器
 docker import http://example.com/exampleimage.tgz example/imagerepo 也可以通过url导入
 
 docker run -it -v /home/aa/none/:/mnt ubuntu:14.04 /bin/bash 挂载本地目录到docker
+打开selinux会导致访问挂载目录报Permission denied，可以加 --privileged=true 开启特权模式, 让container内的root拥有真正的root权限。
 
 --name xx 自定义命名
